@@ -1,0 +1,18 @@
+[3] Config.pm:304> INFO - This is Biber 2.12
+[4] Config.pm:307> INFO - Logfile is 'report.blg'
+[199] biber:314> INFO - === Tue Nov 10, 2020, 10:07:57
+[357] Biber.pm:371> INFO - Reading 'report.bcf'
+[888] Biber.pm:889> INFO - Found 1 citekeys in bib section 0
+[987] Biber.pm:4093> INFO - Processing section 0
+[1104] Biber.pm:4254> INFO - Looking for bibtex format file '/home/chi/Dropbox/Literature/literature.bib' for section 0
+[1109] bibtex.pm:1510> INFO - LaTeX decoding ...
+[1259] bibtex.pm:1327> INFO - Found BibTeX data source '/home/chi/Dropbox/Literature/literature.bib'
+[1415] Utils.pm:193> WARN - BibTeX subsystem: /tmp/azu91idaEI/literature.bib_1264.utf8, line 4, warning: 29 characters of junk seen at toplevel
+[1417] Utils.pm:193> WARN - BibTeX subsystem: /tmp/azu91idaEI/literature.bib_1264.utf8, line 19, warning: undefined macro "april"
+[1495] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1496] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1498] Biber.pm:3921> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[1501] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
+[1524] bbl.pm:636> INFO - Writing 'report.bbl' with encoding 'UTF-8'
+[1537] bbl.pm:739> INFO - Output to report.bbl
+[1542] Biber.pm:110> INFO - WARNINGS: 2

@@ -1,0 +1,87 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{irrenfried2020convective}{book}{}
+      \name{author}{1}{}{%
+        {{hash=d64d487adfdbc078237f0cb599551ea6}{%
+           family={Irrenfried},
+           familyi={I\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{5}{}{%
+        {{hash=56b76e37be3ca550a0f40f8b3c4e4df0}{%
+           family={Brenn},
+           familyi={B\bibinitperiod},
+           given={Guenter},
+           giveni={G\bibinitperiod}}}%
+        {{hash=c3e29f5fdb4155751e1f2b96c129c171}{%
+           family={Holzapfel},
+           familyi={H\bibinitperiod},
+           given={Gerhard},
+           giveni={G\bibinitperiod}}}%
+        {{hash=f1d55f59e68ea807c3ce71d6cc8e7ef8}{%
+           family={Linden},
+           familyi={L\bibinitperiod},
+           given={Wolfgang},
+           giveni={W\bibinitperiod},
+           prefix={von\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+        {{hash=05812e28ed1bee049cf55fecbad6e367}{%
+           family={Schanz},
+           familyi={S\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f3be2a1c252b2a9ede05aeaf98fe188c}{%
+           family={Steinbach},
+           familyi={S\bibinitperiod},
+           given={Olaf},
+           giveni={O\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Verlag der Technischen Universitaet Graz}%
+      }
+      \strng{namehash}{d64d487adfdbc078237f0cb599551ea6}
+      \strng{fullhash}{d64d487adfdbc078237f0cb599551ea6}
+      \strng{bibnamehash}{d64d487adfdbc078237f0cb599551ea6}
+      \strng{authorbibnamehash}{d64d487adfdbc078237f0cb599551ea6}
+      \strng{authornamehash}{d64d487adfdbc078237f0cb599551ea6}
+      \strng{authorfullhash}{d64d487adfdbc078237f0cb599551ea6}
+      \strng{editorbibnamehash}{0fe66f1401356421fead2a06608315f3}
+      \strng{editornamehash}{01e3f3cdda567cfb54e5def0ddb8455f}
+      \strng{editorfullhash}{0fe66f1401356421fead2a06608315f3}
+      \field{sortinit}{I}
+      \field{sortinithash}{9417e9a1288a9371e2691d999083ed39}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Convective turbulent near wall heat transfer at high Prandtl numbers: A modelling approach based on Direct Numerical Simulations and experiments}
+      \field{year}{2020}
+      \verb{file}
+      \verb CFD/irrenfried2020convective.pdf
+      \endverb
+      \keyw{fluid mechanic}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

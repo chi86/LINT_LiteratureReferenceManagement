@@ -1,0 +1,133 @@
+\documentclass[a4paper, 11pt]{article}
+
+%\documentclass[a4paper, 14pt]{memoir}
+% availible font sizes 9pt, 10pt, 11pt, 12pt, 14pt, 17pt, 20pt, 25pt, 30pt, 36pt, 48pt and 60pt
+
+\usepackage{fullpage} % changes the margin
+\usepackage{amsmath}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{siunitx}
+
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+
+% single margin
+\addtolength{\textwidth}{2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\addtolength{\evensidemargin}{-1cm}
+\addtolength{\topmargin}{-1cm}
+\addtolength{\textheight}{2cm}
+
+% double margin
+%% \addtolength{\textwidth}{0cm}
+%% \addtolength{\oddsidemargin}{0cm}
+%% \addtolength{\evensidemargin}{0cm}
+%% \addtolength{\topmargin}{-1cm}
+%% \addtolength{\textheight}{2cm}
+
+
+\newcommand{\myF}[5]{
+  \begin {figure}[#3]
+    \begin{center}
+      {\graphicspath{{figures/}} \input{figures/#1}}
+      \vspace{#4cm}
+      \caption{#2}\label{fig:#1}
+      \vspace{#5cm}
+    \end{center}
+  \end{figure}
+}
+
+\setlength\parindent{0pt}
+
+
+
+%% \graphicspath{ {figures/} }
+
+
+% ADD THE FOLLOWING COUPLE LINES INTO YOUR PREAMBLE
+%% \usepackage[square,sort,comma,numbers]{natbib}
+%% \let\OLDthebibliography\thebibliography
+%% \renewcommand\thebibliography[1]{
+%%   \OLDthebibliography{#1}
+%%   \setlength{\parskip}{0pt}
+%%   \setlength{\itemsep}{0pt plus 0.3ex}
+%% }	
+\usepackage[backend=biber,
+style=authoryear,	%% see biblatex documentation
+firstinits=true,	%% all first and middle names as initials
+uniquename=false,	%% unique name for citations
+uniquelist=false,
+maxcitenames=2,		%% max names in citation (if more: et al.)
+maxbibnames=99,		%% max names in bibliography (no et al. in bibliography)
+natbib=true,		%% offering natbib-compatible commands
+hyperref=true,		%% using hyperref-package references
+dashed=false		%% do *not* replace recurring reference authors with a dash
+]{biblatex}		%% remove, if using BibTeX instead of biblatex
+
+
+\usepackage{xparse}
+\ExplSyntaxOn
+\NewDocumentCommand{\getenv}{om}
+{
+  \sys_get_shell:nnN{ kpsewhich ~ --var-value ~ #2 }{}#1
+}
+\ExplSyntaxOff
+\getenv[\LITERATURE]{LITERATURE}
+
+
+\addbibresource{\LITERATURE}
+
+
+
+
+%% vertical space between 2 bibliography items
+\setlength\bibitemsep{2.\itemsep}
+
+\newcommand{\hl}[1]{\setlength{\fboxsep}{0pt}\colorbox{white}{#1}}
+
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+%Header-Make sure you update this information!!!!
+\noindent
+{\Large \textbf{Test document} }\\
+Irrenfried, C. \\
+{\small Institute of Fluid Mechanics and Heat Transfer, Graz University of Technology} \\
+{\small Inffeldgasse 25F, 8010 Graz, Austria}
+
+\textcite{irrenfried2020convective}
+
+
+
+
+
+\clearpage
+
+{\small
+
+ \printbibliography
+  \label{chap:bibliography}
+}
+
+
+
+
+\end{document}
