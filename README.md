@@ -1,5 +1,5 @@
 # LiteratureReferenceManagement
-simple console based literature reference manager
+simple console based literature reference manager. Capable of opening corresponding pdf files.
 
 - Single source of truth is the biblatex file: **literature.bib**
 - An overview over available biblatex entriey is given in **literature.md**
