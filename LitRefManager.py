@@ -56,8 +56,15 @@ def main():
 
    cli(database,msg,prefix)
 
+
+   # arguments={"database":database,
+   #            "prefix":prefix,
+   #            "searchString":""
+   #            }
+
+   
    #ListAuthors_all(database)
-   #ListAuthors(database)
+   #ListAuthors(arguments)
    #ListPublications(database,prefix)
    #Search(database)
 
@@ -101,12 +108,20 @@ class LitEntry:
 
       for aut in self.BibContent["author"].split("and"):
          entry=aut.strip("{").strip("}").strip("\"").split(" ")
-         #print(repr(entry),len(entry))
-         if entry[-1] == "":
-            self.BibAutors.append(entry[-2])
+         format=len(list(filter(lambda x: "," in x, entry)))
+         print(repr(entry),len(entry),format)
+         if(format == 0):
+            if entry[-1] == "":
+               self.BibAutors.append(entry[-2])
+            else:
+               self.BibAutors.append(entry[-1])
          else:
-            self.BibAutors.append(entry[-1])
-
+            if entry[-1] == "":
+               self.BibAutors.append(entry[-3].strip(","))
+            else:
+               self.BibAutors.append(entry[-2].strip(","))
+            
+               
       # Array holding all data accessible in a serach
       self.searchString.append(self.Title.lower())
       for val in self.keywords:
@@ -393,7 +408,7 @@ def ReadDatabase(prefix):
    database=[]
    
    try:
-   #if(True):   
+   # if(True):      
       fileH=open(prefix+"literature.bib",'r')
       fileH.readline()
       fileH.readline()
