@@ -11,6 +11,7 @@ if os.environ['LITERATURE'] is not "":
 else:
    prefix=""
 PDFviewer="evince "
+Editor="emacs "
 
 ### repr(
 ### entry=next(filter(lambda obj: obj.get('doi'), self.BibContent), None)
@@ -177,6 +178,7 @@ def cli(database,msg,prefix):
       { "List all publications": ListPublications },
       { "List all authors": ListAuthors },
       { "List all authors all": ListAuthors_all },
+      { "Modify database": Mod_Database },
       { "Search": Search },
    ]
    	
@@ -202,6 +204,9 @@ def cli(database,msg,prefix):
       except (ValueError, IndexError):
          pass
 
+
+def Mod_Database(arguments):
+   subprocess.Popen([Editor+prefix+"literature.bib"],shell=True)
 
 def OutputFormat(val):
    entry=Texti.BLUE+val.BibName+Texti.END+" "
