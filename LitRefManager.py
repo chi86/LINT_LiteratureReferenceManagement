@@ -62,12 +62,11 @@ def main():
    #            "prefix":prefix,
    #            "searchString":""
    #            }
-
    
    #ListAuthors_all(database)
    #ListAuthors(arguments)
    #ListPublications(database,prefix)
-   #Search(database)
+   #Search(arguments)
 
 
 
@@ -388,10 +387,15 @@ def Search(arguments):
             idx+=1
             break
 
-   print('number / X')
+   print('number / x / quick open (number#)')
    choice = input(">> ")
 
-   if int(choice) >= 0:
+
+   if choice[-1] is "#":
+      choice=choice[0:-1]
+      print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
+      subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
+   elif int(choice) >= 0:
       print(datapoint[int(choice)].bibtex)
       
       print('open / SPACE')
@@ -401,6 +405,9 @@ def Search(arguments):
          print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
          subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
 
+
+
+   
  
 def Exit(arguments):
    exit()
