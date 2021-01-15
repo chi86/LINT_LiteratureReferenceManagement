@@ -6,7 +6,7 @@ import subprocess
 
 
 ### Set environment variables
-if os.environ['LITERATURE'] is not "":
+if os.environ['LITERATURE'] != "":
    prefix=os.environ['LITERATURE'].strip("literature.bib")
 else:
    prefix=""
@@ -65,7 +65,7 @@ def main():
    
    #ListAuthors_all(database)
    #ListAuthors(arguments)
-   #ListPublications(database,prefix)
+   #ListPublications(arguments)
    #Search(arguments)
 
 
@@ -109,7 +109,9 @@ class LitEntry:
       for aut in self.BibContent["author"].split("and"):
          entry=aut.strip("{").strip("}").strip("\"").split(" ")
          format=len(list(filter(lambda x: "," in x, entry)))
-         print(repr(entry),len(entry),format)
+         
+         #print(repr(entry),len(entry),format)
+         
          if(format == 0):
             if entry[-1] == "":
                self.BibAutors.append(entry[-2])
@@ -183,11 +185,25 @@ def cli(database,msg,prefix):
    	
    while True:
       os.system('clear')
-      print(Texti.GREEN+"Literature reference manager"+Texti.END)
-      print(Texti.GREEN+"============================\n"+Texti.END)
+      
+      print(Texti.GREEN+" ___       ___  _____ _____   ________      "+Texti.END)
+      print(Texti.GREEN+"|\  \     |\  \|\   _ \  _  \|\   __  \     "+Texti.END)
+      print(Texti.GREEN+"\ \  \    \ \  \ \  \\\__\ \  \ \  \|\  \   "+Texti.END)
+      print(Texti.GREEN+" \ \  \    \ \  \ \  \\|__| \  \ \   __  \  "+Texti.END)
+      print(Texti.GREEN+"  \ \  \____\ \  \ \  \   \ \  \ \  \ \  \  "+Texti.END)
+      print(Texti.GREEN+"   \ \_______\ \__\ \__\   \ \__\ \__\ \__\ "+Texti.END)
+      print(Texti.GREEN+"    \|_______|\|__|\|__|    \|__|\|__|\|__| "+Texti.END)
+      print("        "+Texti.GREEN+"LI"+Texti.END+"terature reference "+Texti.GREEN+"MA"+Texti.END+"nager")
+      print("                    "+Texti.GREEN+"chi86"+Texti.END)
+      print()
+
+      
       print(msg)
       
       # Print some badass ascii art header here !
+
+                                            
+      
       for item in menuItems:
          print("[" + str(menuItems.index(item)) + "] "+ list(item.keys())[0])
 
@@ -196,7 +212,7 @@ def cli(database,msg,prefix):
          if len(choice) > 1:
             arguments["searchString"]=choice
             choice=5
-         if choice is 'x': choice=0
+         if choice == 'x': choice=0
          if int(choice) < 0 : raise ValueError
          list(menuItems[int(choice)].values())[0](arguments)
          arguments["searchString"]=""
@@ -250,7 +266,7 @@ def ListPublications(arguments):
       print('open / SPACE')
       choice2 = input(">> ")
       
-      if choice2 is " ":
+      if choice2 == " ":
          # print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
          # print(PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}"))
          
@@ -291,7 +307,7 @@ def ListAuthors_all(arguments):
       print('open / SPACE')
       choice2 = input(">> ")
       
-      if choice2 is " ":
+      if choice2 == " ":
          print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
          subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
 
@@ -345,11 +361,11 @@ def ListAuthors(arguments):
       print('open / SPC or number ')
       choice2 = input(">> ")
       
-      if choice2 is not "":
+      if choice2 != "":
          # for val in list(datapoint.values())[int(choice)]:
          #    print("open : "+val.file.strip("{").strip("}"))
          #    subprocess.Popen([PDFviewer+val.file.strip("{").strip("}")],shell=True)
-         if choice2 is " ": choice2=0
+         if choice2 == " ": choice2=0
          val=list(datapoint.values())[int(choice)][int(choice2)]
          print(val.file)
          print("open : "+val.file.strip("{").strip("}"))
@@ -391,7 +407,7 @@ def Search(arguments):
    choice = input(">> ")
 
 
-   if choice[-1] is "#":
+   if choice[-1] == "#":
       choice=choice[0:-1]
       print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
       subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
@@ -401,7 +417,7 @@ def Search(arguments):
       print('open / SPACE')
       choice2 = input(">> ")
       
-      if choice2 is " ":
+      if choice2 == " ":
          print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
          subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
 
@@ -420,7 +436,7 @@ def ReadDatabase(prefix):
    database=[]
    
    try:
-   # if(True):      
+   #if(True):      
       fileH=open(prefix+"literature.bib",'r')
       fileH.readline()
       fileH.readline()
@@ -444,11 +460,15 @@ def ReadDatabase(prefix):
                
                database.append(LE)
             elif(dataField==1):
-               di={data.strip(",").split("=")[0][:-1]:data.strip(",").split("=")[1][1:]}
-               # print(2,data)
-               # print(3,di)
+               di_key=data.strip(",").split("=")[0].replace(" ","")
+               di_val=data.strip(",").split("=")[1]
+
+               if(di_val[0] == " "):
+                  di_val=di_val[1:]
                
-               LE.BibContent[data.strip(",").split("=")[0][:-1].strip(" ")]=data.strip(",").split("=")[1][1:]
+               #print(" \t 2 {:15} : {}".format(repr(di_key),repr(di_val)))
+
+               LE.BibContent[di_key]=di_val
       
       fileH.close()
    except:

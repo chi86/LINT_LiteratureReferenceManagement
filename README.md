@@ -1,4 +1,4 @@
-# LiteratureReferenceManagement
+# LIMA: LIterature reference MAnagement
 simple console based literature reference manager. Capable of opening corresponding pdf files.
 
 - Single source of truth is the biblatex file: **literature.bib**
