@@ -1,4 +1,4 @@
-# LIMA: LIterature reference MAnagement
+# LINT: LIterature reference managemeNT
 simple console based literature reference manager. Capable of opening corresponding pdf files.
 
 - Single source of truth is the biblatex file: **literature.bib**
@@ -9,7 +9,7 @@ simple console based literature reference manager. Capable of opening correspond
 
 ## Setup
 Set environment variable **LITERATURE**, pointing to the **literature.bib** file.
-The pdf viewer can be chosen by modifying the **PDFviewer** entry in the "environment variables" section of "LitRefManager.py"
+The pdf viewer can be chosen by modifying the **PDFviewer** entry in the "environment variables" section of "LINT.py"
 
 ## Latex templete
 Is given in "latex", which also uses the environment variable **LITERATURE**. Build with **make**

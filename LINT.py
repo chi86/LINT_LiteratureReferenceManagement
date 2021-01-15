@@ -185,20 +185,26 @@ def cli(database,msg,prefix):
    	
    while True:
       os.system('clear')
-      
-      print(Texti.GREEN+" ___       ___  _____ _____   ________      "+Texti.END)
-      print(Texti.GREEN+"|\  \     |\  \|\   _ \  _  \|\   __  \     "+Texti.END)
-      print(Texti.GREEN+"\ \  \    \ \  \ \  \\\__\ \  \ \  \|\  \   "+Texti.END)
-      print(Texti.GREEN+" \ \  \    \ \  \ \  \\|__| \  \ \   __  \  "+Texti.END)
-      print(Texti.GREEN+"  \ \  \____\ \  \ \  \   \ \  \ \  \ \  \  "+Texti.END)
-      print(Texti.GREEN+"   \ \_______\ \__\ \__\   \ \__\ \__\ \__\ "+Texti.END)
-      print(Texti.GREEN+"    \|_______|\|__|\|__|    \|__|\|__|\|__| "+Texti.END)
-      print("        "+Texti.GREEN+"LI"+Texti.END+"terature reference "+Texti.GREEN+"MA"+Texti.END+"nager")
+
+      print(Texti.GREEN+"  ___       ___  ________   _________    "+Texti.END)
+      print(Texti.GREEN+" |\  \     |\  \|\   ___  \|\___   ___\  "+Texti.END)
+      print(Texti.GREEN+" \ \  \    \ \  \ \  \\\ \  \|___ \  \_|   "+Texti.END)
+      print(Texti.GREEN+"  \ \  \    \ \  \ \  \\\ \  \   \ \  \   "+Texti.END)
+      print(Texti.GREEN+"   \ \  \____\ \  \ \  \\\ \  \   \ \  \  "+Texti.END)
+      print(Texti.GREEN+"    \ \_______\ \__\ \__\\\ \__\   \ \__\ "+Texti.END)
+      print(Texti.GREEN+"     \|_______|\|__|\|__| \|__|    \|__| "+Texti.END)
+      print("       "+Texti.GREEN+"LI"+Texti.END+"terature reference manageme"+Texti.GREEN+"NT"+Texti.END)
       print("                    "+Texti.GREEN+"chi86"+Texti.END)
       print()
 
       
       print(msg)
+
+
+
+
+
+      
       
       # Print some badass ascii art header here !
 
