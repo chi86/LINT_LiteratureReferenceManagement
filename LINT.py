@@ -88,6 +88,7 @@ class LitEntry:
       self.BibContent={}
 
       self.keywords=[]
+      self.projects=[]
       
       # Array holding all data accessible in a serach
       self.searchString=[]
@@ -102,6 +103,9 @@ class LitEntry:
       self.file=self.BibContent["file"]
       self.Title=self.BibContent["title"]
 
+      if "projects" in self.BibContent.keys():
+         for val in self.BibContent["projects"].split(","):
+            self.projects.append(val.strip("\"").strip("{").strip("}"))
       
       for val in self.BibContent["keywords"].split(","):
          self.keywords.append(val.strip("\"").strip("{").strip("}"))
@@ -128,10 +132,13 @@ class LitEntry:
       self.searchString.append(self.Title.lower())
       for val in self.keywords:
          self.searchString.append(val.lower())
+      for val in self.projects:
+         self.searchString.append(val.lower())
       for val in self.BibAutors:
          self.searchString.append(val.lower())
       self.searchString.append(self.BibName.lower())
       self.searchString.append(self.abstract.lower())
+
 
       # print(self.searchString)
 
