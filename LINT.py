@@ -177,6 +177,7 @@ def cli(database,msg,prefix):
 
    arguments={"database":database,
               "prefix":prefix,
+              "msg":msg,
               "searchString":""
               }
 
@@ -186,8 +187,9 @@ def cli(database,msg,prefix):
       { "List all publications": ListPublications },
       { "List all authors": ListAuthors },
       { "List all authors all": ListAuthors_all },
-      { "Modify database": Mod_Database },
       { "Search": Search },
+      { Texti.RED+"Modify database"+Texti.END: Mod_Database },
+      { Texti.RED+"Reload database"+Texti.END: Reload_Database }
    ]
    	
    while True:
@@ -205,13 +207,8 @@ def cli(database,msg,prefix):
       print()
 
       
-      print(msg)
-
-
-
-
-
-      
+      print(arguments["msg"])
+     
       
       # Print some badass ascii art header here !
 
@@ -233,6 +230,12 @@ def cli(database,msg,prefix):
          pass
 
 
+def Reload_Database(arguments):
+   prefix=arguments["prefix"]
+   database,msg=ReadDatabase(prefix)
+   arguments["database"]=database
+   arguments["msg"]=msg
+   
 def Mod_Database(arguments):
    subprocess.Popen([Editor+prefix+"literature.bib"],shell=True)
 
