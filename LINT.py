@@ -10,12 +10,12 @@
 
 
 __title__   = 'LINT: LIterature reference managemeNT'
-__version__ = '3.1'
+__version__ = '3.2'
 __author__  = 'christoph irrenfried'
 __license__ = 'none'
 
 # prepare environment
-import time,os
+import time,os,copy
 import textwrap
 import subprocess
 
@@ -280,7 +280,7 @@ def Menu_SingeLitEntry(datapoint,arguments):
       choice = input(">> ")
       
       if choice == "e":
-         arguments["export"].append(datapoint)
+         arguments["export"].append(copy.deepcopy(datapoint))
       elif choice == " ":
          # print("open : "+datapoint.file.strip("{").strip("}"))
          # print(PDFviewer+prefix+datapoint.file.strip("{").strip("}"))
@@ -308,7 +308,41 @@ def CLI_Export(arguments):
       elif(choice == "d"):
          arguments["export"]=[]
       elif(choice == "f"):
-         print("work in progress ..")
+         relPrefix=os.path.dirname(os.path.realpath(__file__))
+         export_prefix=relPrefix+"/"+input("path for export (relative): ")
+
+         # pwd = subprocess.Popen('pwd '+export_prefix,
+         #             shell=True,
+         #             stdout=subprocess.PIPE, 
+         #             stderr=subprocess.PIPE)
+         # out, err = pwd.communicate()
+
+         # print(export_prefix,out)
+
+         # fix file
+         fileNames=[]
+         for idx in range(len(arguments["export"])):
+            fileNames.append(arguments["export"][idx].file.strip("{").strip("}"))
+
+            # remove folders from file name
+            arguments["export"][idx].BibContent["file"]=arguments["export"][idx].BibContent["file"].split("/")[-1].strip("{").strip("}")
+            # generate new bibtex
+            arguments["export"][idx].GenerateBibTex()
+         
+         # write bibtex file
+         file_h=open(export_prefix+"/lit.bib","w")
+         for dat in arguments["export"]:
+            file_h.write(dat.bibtex)
+            file_h.write("\n")
+         file_h.close()
+
+         # copy files
+         for file in fileNames:
+            cmd="cp "+relPrefix+"/"+file+" "+export_prefix+"/"+file.split("/")[-1]
+            status = subprocess.check_output(cmd, shell=True)
+
+         
+   
 
 
 def CLI_ListPublications(arguments):
