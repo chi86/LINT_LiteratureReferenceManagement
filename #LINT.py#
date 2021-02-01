@@ -221,7 +221,7 @@ def cli(database,msg,prefix):
       try:
          if len(choice) > 1:
             arguments["searchString"]=choice
-            choice=4
+            choice=5
          if choice == 'x': choice=0
          if int(choice) < 0 : raise ValueError
          list(menuItems[int(choice)].values())[0](arguments)
