@@ -308,7 +308,8 @@ def CLI_Export(arguments):
       elif(choice == "d"):
          arguments["export"]=[]
       elif(choice == "f"):
-         relPrefix=os.path.dirname(os.path.realpath(__file__))
+         #relPrefix=os.path.dirname(os.path.realpath(__file__))
+         relPrefix=os.getcwd()
          export_prefix=relPrefix+"/"+input("path for export (relative): ")
 
          # pwd = subprocess.Popen('pwd '+export_prefix,
@@ -338,7 +339,7 @@ def CLI_Export(arguments):
 
          # copy files
          for file in fileNames:
-            cmd="cp "+relPrefix+"/"+file+" "+export_prefix+"/"+file.split("/")[-1]
+            cmd="cp "+arguments["prefix"]+"/"+file+" "+export_prefix+"/"+file.split("/")[-1]
             status = subprocess.check_output(cmd, shell=True)
 
          
