@@ -1,5 +1,20 @@
 #!/usr/bin/python3
 
+##    ___       ___  ________   _________      ##
+##   |\  \     |\  \|\   ___  \|\___   ___\    ##
+##   \ \  \    \ \  \ \  \\ \  \|___ \  \_|    ##
+##    \ \  \    \ \  \ \  \\ \  \   \ \  \     ##
+##     \ \  \____\ \  \ \  \\ \  \   \ \  \    ##
+##      \ \_______\ \__\ \__\\ \__\   \ \__\   ##
+##       \|_______|\|__|\|__| \|__|    \|__|   ##
+
+
+__title__   = 'LINT: LIterature reference managemeNT'
+__version__ = '3.1'
+__author__  = 'christoph irrenfried'
+__license__ = 'none'
+
+# prepare environment
 import time,os
 import textwrap
 import subprocess
@@ -15,7 +30,6 @@ Editor="emacs "
 
 ### repr(
 ### entry=next(filter(lambda obj: obj.get('doi'), self.BibContent), None)
-
 
 
 #======== Fancy terminal print ==================
@@ -71,6 +85,7 @@ def main():
 
 
 
+#===== LitEntry class ==================
 class LitEntry:
    """
    class for holding all relevent information of a literature entry
@@ -161,57 +176,33 @@ class LitEntry:
       return self.bibtex
 
 
-
-
-
-
-
-
-
-
-
-
-
+#===== cli ==================
 def cli(database,msg,prefix):
    # command line interface
 
    arguments={"database":database,
               "prefix":prefix,
               "msg":msg,
-              "searchString":""
+              "searchString":"",
+              "export":[]
               }
 
-   ### cli
    menuItems = [
-      { "E(x)it": Exit },
-      { "List all publications": ListPublications },
-      { "List all authors": ListAuthors },
-      { "List all authors all": ListAuthors_all },
-      { "Search": Search },
-      { Texti.RED+"Modify database"+Texti.END: Mod_Database },
-      { Texti.RED+"Reload database"+Texti.END: Reload_Database }
+      { "E(x)it": CLI_Exit },
+      { "List all publications": CLI_ListPublications },
+      { "List all authors": CLI_ListAuthors },
+      { "Search": CLI_Search },
+      { Texti.RED+"Modify database"+Texti.END: CLI_ModDatabase },
+      { Texti.RED+"Reload database"+Texti.END: CLI_ReloadDatabase },
+      { Texti.DARKCYAN+"Export"+Texti.END: CLI_Export }
    ]
    	
    while True:
       os.system('clear')
 
-      print(Texti.GREEN+"  ___       ___  ________   _________    "+Texti.END)
-      print(Texti.GREEN+" |\  \     |\  \|\   ___  \|\___   ___\  "+Texti.END)
-      print(Texti.GREEN+" \ \  \    \ \  \ \  \\\ \  \|___ \  \_|   "+Texti.END)
-      print(Texti.GREEN+"  \ \  \    \ \  \ \  \\\ \  \   \ \  \   "+Texti.END)
-      print(Texti.GREEN+"   \ \  \____\ \  \ \  \\\ \  \   \ \  \  "+Texti.END)
-      print(Texti.GREEN+"    \ \_______\ \__\ \__\\\ \__\   \ \__\ "+Texti.END)
-      print(Texti.GREEN+"     \|_______|\|__|\|__| \|__|    \|__| "+Texti.END)
-      print("       "+Texti.GREEN+"LI"+Texti.END+"terature reference manageme"+Texti.GREEN+"NT"+Texti.END)
-      print("                    "+Texti.GREEN+"chi86"+Texti.END)
-      print()
-
+      Logo()
       
       print(arguments["msg"])
-     
-      
-      # Print some badass ascii art header here !
-
                                             
       
       for item in menuItems:
@@ -221,7 +212,7 @@ def cli(database,msg,prefix):
       try:
          if len(choice) > 1:
             arguments["searchString"]=choice
-            choice=4
+            choice=3
          if choice == 'x': choice=0
          if int(choice) < 0 : raise ValueError
          list(menuItems[int(choice)].values())[0](arguments)
@@ -230,37 +221,106 @@ def cli(database,msg,prefix):
          pass
 
 
-def Reload_Database(arguments):
+#===== Utility functions for cli ==================
+def Logo():
+   """
+   Routine for plotting the logo
+   """
+   print(Texti.GREEN+"  ___       ___  ________   _________    "+Texti.END)
+   print(Texti.GREEN+" |\  \     |\  \|\   ___  \|\___   ___\  "+Texti.END)
+   print(Texti.GREEN+" \ \  \    \ \  \ \  \\\ \  \|___ \  \_|   "+Texti.END)
+   print(Texti.GREEN+"  \ \  \    \ \  \ \  \\\ \  \   \ \  \   "+Texti.END)
+   print(Texti.GREEN+"   \ \  \____\ \  \ \  \\\ \  \   \ \  \  "+Texti.END)
+   print(Texti.GREEN+"    \ \_______\ \__\ \__\\\ \__\   \ \__\ "+Texti.END)
+   print(Texti.GREEN+"     \|_______|\|__|\|__| \|__|    \|__| "+Texti.END)
+   print("       "+Texti.GREEN+"LI"+Texti.END+"terature reference manageme"+Texti.GREEN+"NT"+Texti.END)
+   print("                    "+Texti.GREEN+"chi86"+Texti.END)
+   print()
+
+
+#===== literature database functions ==================
+def CLI_ReloadDatabase(arguments):
+   """
+   Reload databese
+   """
    prefix=arguments["prefix"]
    database,msg=ReadDatabase(prefix)
    arguments["database"]=database
    arguments["msg"]=msg
    
-def Mod_Database(arguments):
+def CLI_ModDatabase(arguments):
+   """
+   Modify databese --> open the databases file in $Editor
+   """
    subprocess.Popen([Editor+prefix+"literature.bib"],shell=True)
 
+
+#===== general literature database stuff ==================
 def OutputFormat(val):
+   """
+   helper: fancy output of literature entry
+   """
    entry=Texti.BLUE+val.BibName+Texti.END+" "
    entry+=Texti.RED+val.BibContent['title'].replace('{','').replace('}','')+Texti.END+" "
    entry+=Texti.GREEN+val.BibContent['author'].replace('{','').replace('}','')+Texti.END+" "
    entry+=Texti.YELLOW+str(val.keywords)+Texti.END
 
    return entry
+   
+def Menu_SingeLitEntry(datapoint,arguments):   
+   """
+   helper: menu for a single literature entry
+   """
+   choice=""
+   while( choice != "x"):
+      # if int(choice) >= 0:
+      print(datapoint.bibtex)
 
-def ListPublications(arguments):
+      print('open(SPACE) | export (e) | exit (x)')
+      choice = input(">> ")
+      
+      if choice == "e":
+         arguments["export"].append(datapoint)
+      elif choice == " ":
+         # print("open : "+datapoint.file.strip("{").strip("}"))
+         # print(PDFviewer+prefix+datapoint.file.strip("{").strip("}"))
+         
+         #input("Press [Enter] to continue...")
+   
+         subprocess.Popen([PDFviewer+prefix+datapoint.file.strip("{").strip("}")],shell=True)
+
+
+def CLI_Export(arguments):
+   """
+   CLI entry **Export**
+   """
+   for dat in arguments["export"]:
+      print(dat.BibName)
+
+   choice=""
+   while( choice!= "x"):
+      print("print bibtex (p) | export to file (f) | delete list (d) | exit (x)")
+      choice=input(">> ")
+
+      if(choice == "p"):
+         for dat in arguments["export"]:
+            print(dat.bibtex)
+      elif(choice == "d"):
+         arguments["export"]=[]
+      elif(choice == "f"):
+         print("work in progress ..")
+
+
+def CLI_ListPublications(arguments):
+   """
+   CLI entry **ListPublications**
+   """
    database=arguments["database"]
    prefix  =arguments["prefix"]
    
    datapoint=[]
 
    for idx,dat in enumerate(database):
-      # #entry=next(filter(lambda obj: obj.get('title'), dat.BibContent), None)
-      # entry=dat.BibContent["title"]
-
-      # if(entry==None): continue
-      # datapoint.append(dat)
-      # #print(idx,entry['title'].strip('{').strip('}'))
-
       datapoint.append(dat)
       entry=OutputFormat(dat)
 
@@ -274,62 +334,16 @@ def ListPublications(arguments):
          print('\t'+i)
       
    print('number / X')
-   choice = input(">> ")
+   choiceDat = input(">> ")
 
-   if int(choice) >= 0:
-      print(datapoint[int(choice)].bibtex)
+   if( int(choiceDat) >= 0 ):
+      Menu_SingeLitEntry(datapoint[int(choiceDat)],arguments)
 
-      print('open / SPACE')
-      choice2 = input(">> ")
-      
-      if choice2 == " ":
-         # print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
-         # print(PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}"))
-         
-         #input("Press [Enter] to continue...")
-   
-         subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
-   
-   
-   input("Press [Enter] to continue...")
 
-def ListAuthors_all(arguments):
-   database=arguments["database"]
-   prefix  =arguments["prefix"]
-   
-   datapoint=[]
-
-   for idx,dat in enumerate(database):
-      entry=dat.BibContent['author']
-      if(entry==None): continue
-      datapoint.append(dat)
-      #print(idx,entry['author'].strip('{').strip('}'))
-      
-      msg=entry.replace('{','')
-      msg=msg.replace('}','')
-      msg=(str(idx)+' : '+msg)
-      msg=textwrap.wrap(msg, 72)
-      
-      print(msg[0])
-      for i in msg[1:]:
-         print('\t'+i)
-
-   print('number / X')
-   choice = input(">> ")
-
-   if int(choice) >= 0:
-      print(datapoint[int(choice)].bibtex)
-      
-      print('open / SPACE')
-      choice2 = input(">> ")
-      
-      if choice2 == " ":
-         print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
-         subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
-
- 
-
-def ListAuthors(arguments):
+def CLI_ListAuthors(arguments):
+   """
+   CLI entry **ListAuthors**
+   """
    database=arguments["database"]
    prefix  =arguments["prefix"]
    
@@ -375,22 +389,16 @@ def ListAuthors(arguments):
          #print("{:3} : {}".format(idx,entry))
          
       print('open / SPC or number ')
-      choice2 = input(">> ")
+      choiceDat = input(">> ")
       
-      if choice2 != "":
-         # for val in list(datapoint.values())[int(choice)]:
-         #    print("open : "+val.file.strip("{").strip("}"))
-         #    subprocess.Popen([PDFviewer+val.file.strip("{").strip("}")],shell=True)
-         if choice2 == " ": choice2=0
-         val=list(datapoint.values())[int(choice)][int(choice2)]
-         print(val.file)
-         print("open : "+val.file.strip("{").strip("}"))
-         subprocess.Popen([PDFviewer+prefix+val.file.strip("{").strip("}")],shell=True)
-   
-    
-   #input("Press [Enter] to continue...")
+      if( int(choiceDat) >= 0 ):
+         Menu_SingeLitEntry(list(datapoint.values())[int(choice)][int(choiceDat)],arguments)
+         
  
-def Search(arguments):
+def CLI_Search(arguments):
+   """
+   CLI entry **Search**
+   """
    database=arguments["database"]
    prefix  =arguments["prefix"]
    
@@ -419,35 +427,33 @@ def Search(arguments):
             idx+=1
             break
 
-   print('number / x / quick open (number#)')
-   choice = input(">> ")
+   print('select (number) | quick open (number#) | export all (e)')
+   choiceDat = input(">> ")
 
 
-   if choice[-1] == "#":
-      choice=choice[0:-1]
-      print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
-      subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
-   elif int(choice) >= 0:
-      print(datapoint[int(choice)].bibtex)
-      
-      print('open / SPACE')
-      choice2 = input(">> ")
-      
-      if choice2 == " ":
-         print("open : "+datapoint[int(choice)].file.strip("{").strip("}"))
-         subprocess.Popen([PDFviewer+prefix+datapoint[int(choice)].file.strip("{").strip("}")],shell=True)
-
-
+   if choiceDat[-1] == "#":
+      choiceDat=choiceDat[0:-1]
+      print("open : "+datapoint[int(choiceDat)].file.strip("{").strip("}"))
+      subprocess.Popen([PDFviewer+prefix+datapoint[int(choiceDat)].file.strip("{").strip("}")],shell=True)
+   elif choiceDat == "e":
+      arguments["export"].extend(datapoint[:])
+   elif int(choiceDat) >= 0:
+      Menu_SingeLitEntry(datapoint[int(choiceDat)],arguments)
 
    
- 
-def Exit(arguments):
+
+def CLI_Exit(arguments):
+   """
+   CLI entry **Exit**
+   """
    exit()
 
 
-
-   
+#===== Database related functions ==================
 def ReadDatabase(prefix):
+   """
+   Read database given by prefix
+   """
    msg=""
    database=[]
    
@@ -499,8 +505,7 @@ def ReadDatabase(prefix):
 
 
 
-
-
+#===== execute MAIN ==================
 if __name__ == '__main__':
    #===== Main routine execute =============
    #start = time.time()
