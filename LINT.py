@@ -10,7 +10,7 @@
 
 
 __title__   = 'LINT: LIterature reference managemeNT'
-__version__ = '3.2'
+__version__ = '3.3'
 __author__  = 'christoph irrenfried'
 __license__ = 'none'
 
@@ -256,7 +256,7 @@ def CLI_ModDatabase(arguments):
 
 
 #===== general literature database stuff ==================
-def OutputFormat(val):
+def OutputFormat(idx,val):
    """
    helper: fancy output of literature entry
    """
@@ -264,8 +264,15 @@ def OutputFormat(val):
    entry+=Texti.RED+val.BibContent['title'].replace('{','').replace('}','')+Texti.END+" "
    entry+=Texti.GREEN+val.BibContent['author'].replace('{','').replace('}','')+Texti.END+" "
    entry+=Texti.YELLOW+str(val.keywords)+Texti.END
+   
+   entry=(str(idx)+' : '+entry)
+   entry=textwrap.wrap(entry, 72)
+      
+   print(entry[0])
+   for i in entry[1:]:
+      print('\t'+i)
 
-   return entry
+   #return entry
    
 def Menu_SingeLitEntry(datapoint,arguments):   
    """
@@ -294,9 +301,10 @@ def CLI_Export(arguments):
    """
    CLI entry **Export**
    """
-   for dat in arguments["export"]:
-      print(dat.BibName)
-
+   print("\nNumber of selected bibtex entries: "+str(len(arguments["export"])))
+   for idx,dat in enumerate(arguments["export"]):
+      OutputFormat(idx,dat)
+      
    choice=""
    while( choice!= "x"):
       print("print bibtex (p) | export to file (f) | delete list (d) | exit (x)")
@@ -357,16 +365,7 @@ def CLI_ListPublications(arguments):
 
    for idx,dat in enumerate(database):
       datapoint.append(dat)
-      entry=OutputFormat(dat)
-
-      msg=entry
-      msg=msg.replace('}','')
-      msg=(str(idx)+' : '+msg)
-      msg=textwrap.wrap(msg, 72)
-      
-      print(msg[0])
-      for i in msg[1:]:
-         print('\t'+i)
+      OutputFormat(idx,dat)
       
    print('number / X')
    choiceDat = input(">> ")
@@ -411,17 +410,7 @@ def CLI_ListAuthors(arguments):
    if int(choice) >= 0:
       #print(datapoint.values()[int(choice)])
       for idx,val in enumerate(list(datapoint.values())[int(choice)]):
-         entry=OutputFormat(val)
-         
-         msg=entry
-         msg=(str(idx)+' : '+msg)
-         msg=textwrap.wrap(msg, 72)
-      
-         print(msg[0])
-         for i in msg[1:]:
-            print('\t'+i)
-         
-         #print("{:3} : {}".format(idx,entry))
+         OutputFormat(idx,dat)
          
       print('open / SPC or number ')
       choiceDat = input(">> ")
@@ -448,17 +437,9 @@ def CLI_Search(arguments):
    for id,dat in enumerate(database):
       for dat_keyw in dat.searchString:
          if keyw in dat_keyw:
-
             datapoint.append(dat)
-            entry=OutputFormat(dat)
-            
-            msg=entry
-            msg=(str(idx)+' : '+msg)
-            msg=textwrap.wrap(msg, 72)
-      
-            print(msg[0])
-            for i in msg[1:]:
-               print('\t'+i)
+            OutputFormat(idx,dat)
+               
             idx+=1
             break
 
