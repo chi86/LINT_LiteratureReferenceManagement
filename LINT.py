@@ -81,9 +81,10 @@ def main():
    #ListAuthors(arguments)
    #ListPublications(arguments)
    #Search(arguments)
+   #CLI_ListKeywords(arguments)
+   #CLI_ListAuthors(arguments)
 
-
-
+   
 
 #===== LitEntry class ==================
 class LitEntry:
@@ -191,6 +192,8 @@ def cli(database,msg,prefix):
       { "E(x)it": CLI_Exit },
       { "List all publications": CLI_ListPublications },
       { "List all authors": CLI_ListAuthors },
+      { "List all keywords": CLI_ListKeywords },
+      { "List all projects": CLI_ListProjects },
       { "Search": CLI_Search },
       { Texti.RED+"Modify database"+Texti.END: CLI_ModDatabase },
       { Texti.RED+"Reload database"+Texti.END: CLI_ReloadDatabase },
@@ -212,7 +215,7 @@ def cli(database,msg,prefix):
       try:
          if len(choice) > 1:
             arguments["searchString"]=choice
-            choice=3
+            choice=5
          if choice == 'x': choice=0
          if int(choice) < 0 : raise ValueError
          list(menuItems[int(choice)].values())[0](arguments)
@@ -410,7 +413,96 @@ def CLI_ListAuthors(arguments):
    if int(choice) >= 0:
       #print(datapoint.values()[int(choice)])
       for idx,val in enumerate(list(datapoint.values())[int(choice)]):
-         OutputFormat(idx,dat)
+         OutputFormat(idx,val)
+         
+      print('open / SPC or number ')
+      choiceDat = input(">> ")
+      
+      if( int(choiceDat) >= 0 ):
+         Menu_SingeLitEntry(list(datapoint.values())[int(choice)][int(choiceDat)],arguments)
+        
+
+def CLI_ListKeywords(arguments):
+   """
+   CLI entry **ListKeywords**
+   """
+   database=arguments["database"]
+   prefix  =arguments["prefix"]
+   
+   datapoint0={}
+   for idx,dat in enumerate(database):
+      for keywords in dat.keywords:
+         entry=keywords
+         if(entry==None): continue
+         if(not entry in datapoint0):
+            datapoint0[entry]=[dat]
+         else:
+            datapoint0[entry].append(dat)
+
+   # print(datapoint0)
+
+   datapoint={}
+   for key, value in sorted(datapoint0.items()):
+      datapoint[key]=value
+
+   # for key,value in datapoint.items():
+   #    print("{:3} : {}".format(key,value))
+
+   for idx,dat in enumerate(datapoint):
+      print("{:3} : {}".format(idx,dat))
+
+   print('number / X')
+   choice = input(">> ")
+
+
+   if int(choice) >= 0:
+      #print(datapoint.values()[int(choice)])
+      for idx,val in enumerate(list(datapoint.values())[int(choice)]):
+         OutputFormat(idx,val)
+         
+      print('open / SPC or number ')
+      choiceDat = input(">> ")
+      
+      if( int(choiceDat) >= 0 ):
+         Menu_SingeLitEntry(list(datapoint.values())[int(choice)][int(choiceDat)],arguments)
+         
+def CLI_ListProjects(arguments):
+   """
+   CLI entry **ListProjects**
+   """
+   database=arguments["database"]
+   prefix  =arguments["prefix"]
+   
+   datapoint0={}
+   for idx,dat in enumerate(database):
+      for projects in dat.projects:
+         entry=projects
+         if(entry==None): continue
+         if(not entry in datapoint0):
+            datapoint0[entry]=[dat]
+         else:
+            datapoint0[entry].append(dat)
+
+   # print(datapoint0)
+
+   datapoint={}
+   for key, value in sorted(datapoint0.items()):
+      datapoint[key]=value
+
+   # for key,value in datapoint.items():
+   #    print("{:3} : {}".format(key,value))
+
+   for idx,dat in enumerate(datapoint):
+      print("{:3} : {}".format(idx,dat))
+
+   print('number / X')
+   choice = input(">> ")
+
+
+   if int(choice) >= 0:
+      #print(datapoint.values()[int(choice)])
+      for idx,val in enumerate(list(datapoint.values())[int(choice)]):
+         OutputFormat(idx,val)
          
       print('open / SPC or number ')
       choiceDat = input(">> ")
