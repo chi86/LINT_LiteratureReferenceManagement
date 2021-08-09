@@ -13,6 +13,7 @@ __title__   = 'LINT: LIterature reference managemeNT'
 __version__ = '3.3'
 __author__  = 'christoph irrenfried'
 __license__ = 'none'
+__release__ = True
 
 # prepare environment
 import time,os,copy
@@ -69,20 +70,20 @@ def main():
    # for val in database:
    #    print(val.BibContent)
 
-   cli(database,msg,prefix)
-
-
-   # arguments={"database":database,
-   #            "prefix":prefix,
-   #            "searchString":""
-   #            }
+   if(__release__):
+      cli(database,msg,prefix)
+   else:
+      arguments={"database":database,
+                 "prefix":prefix,
+                 "searchString":""
+                 }
    
-   #ListAuthors_all(database)
-   #ListAuthors(arguments)
-   #ListPublications(arguments)
-   #Search(arguments)
-   #CLI_ListKeywords(arguments)
-   #CLI_ListAuthors(arguments)
+      #ListAuthors_all(database)
+      #ListAuthors(arguments)
+      #ListPublications(arguments)
+      #Search(arguments)
+      CLI_ListKeywords(arguments)
+      #CLI_ListAuthors(arguments)
 
    
 
@@ -121,10 +122,10 @@ class LitEntry:
 
       if "projects" in self.BibContent.keys():
          for val in self.BibContent["projects"].split(","):
-            self.projects.append(val.strip("\"").strip("{").strip("}"))
+            self.projects.append(val.strip("\"").strip("{").strip("}").lstrip())
       
       for val in self.BibContent["keywords"].split(","):
-         self.keywords.append(val.strip("\"").strip("{").strip("}"))
+         self.keywords.append(val.strip("\"").strip("{").strip("}").lstrip().lower())
 
       for aut in self.BibContent["author"].split("and"):
          entry=aut.strip("{").strip("}").strip("\"").split(" ")
