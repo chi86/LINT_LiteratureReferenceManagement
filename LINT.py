@@ -14,6 +14,7 @@ __version__ = '3.3'
 __author__  = 'christoph irrenfried'
 __license__ = 'none'
 __release__ = True
+#__release__ = False
 
 # prepare environment
 import time,os,copy
@@ -73,17 +74,23 @@ def main():
    if(__release__):
       cli(database,msg,prefix)
    else:
-      arguments={"database":database,
-                 "prefix":prefix,
-                 "searchString":""
-                 }
+
+
+      print(msg)
+
+      
+      # arguments={"database":database,
+      #            "prefix":prefix,
+      #            "searchString":""
+      #            }
    
-      #ListAuthors_all(database)
-      #ListAuthors(arguments)
-      #ListPublications(arguments)
-      #Search(arguments)
-      CLI_ListKeywords(arguments)
-      #CLI_ListAuthors(arguments)
+      # #ListAuthors_all(database)
+      # #ListAuthors(arguments)
+      # #ListPublications(arguments)
+      # #Search(arguments)
+      # #CLI_ListAuthors(arguments)
+      # CLI_ListKeywords(arguments)
+      
 
    
 
@@ -117,7 +124,7 @@ class LitEntry:
    def SetupEntry(self):
       # process data stored in dict "BibContent"
       
-      self.file=self.BibContent["file"]
+      self.file=self.BibContent["file"].strip("{").strip("}").lstrip()
       self.Title=self.BibContent["title"]
 
       if "projects" in self.BibContent.keys():
@@ -129,21 +136,21 @@ class LitEntry:
 
       for aut in self.BibContent["author"].split("and"):
          entry=aut.strip("{").strip("}").strip("\"").split(" ")
-         format=len(list(filter(lambda x: "," in x, entry)))
-         
-         #print(repr(entry),len(entry),format)
-         
-         if(format == 0):
-            if entry[-1] == "":
-               self.BibAutors.append(entry[-2])
-            else:
-               self.BibAutors.append(entry[-1])
-         else:
-            if entry[-1] == "":
-               self.BibAutors.append(entry[-3].strip(","))
-            else:
-               self.BibAutors.append(entry[-2].strip(","))
-            
+         entry=list(filter(None, entry))
+
+         # format=len(list(filter(lambda x: "," in x, entry)))
+         # print(repr(entry),len(entry),format)
+         # if(format == 0):
+         #    if entry[-1] == "":
+         #       self.BibAutors.append(entry[-2])
+         #    else:
+         #       self.BibAutors.append(entry[-1])
+         # else:
+         #    if entry[-1] == "":
+         #       self.BibAutors.append(entry[-3].strip(","))
+         #    else:
+         #       self.BibAutors.append(entry[-2].strip(","))
+         self.BibAutors.append(entry[0].strip(","))
                
       # Array holding all data accessible in a serach
       self.searchString.append(self.Title.lower())
@@ -215,7 +222,7 @@ def cli(database,msg,prefix):
       choice = input("# or search >> ")
       try:
          if len(choice) > 1:
-            arguments["searchString"]=choice
+            arguments["searchString"]=choice.lower()
             choice=5
          if choice == 'x': choice=0
          if int(choice) < 0 : raise ValueError
